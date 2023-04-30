@@ -1,0 +1,73 @@
+{% set PAGE_TITLE = 'App Settings' %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <form method="post">
+        <h2>Global Settings</h2>
+        <hr>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label class="col-form-label" style="font-weight: bold;">FERNET_KEY</label>
+            </div>
+            <div class="col-md-3">
+                <label class="col-md-auto col-form-label">{% if is_fernet_key_set %} ******* {% endif %}</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="fernet_key">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label class="col-form-label" style="font-weight: bold;">DEFAUL_COUNTRY</label>
+            </div>
+            <div class="col-md-3">
+                <label class="col-md-auto col-form-label">{{ default_country.name }}</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="country_id" required>
+                    {% for country in countries %}
+                        <option value="{{ country.id }}" {% if country.id == default_country.id %} selected {% endif %}>{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label class="col-form-label" style="font-weight: bold;">DEFAUL_CURRENCY</label>
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label">{{ default_currency.code }}</label>
+            </div>
+            <div class="col-md-1">
+                <select class="form-select" name="currency_id" required>
+                    {% for currency in currencies %}
+                        <option value="{{ currency.id }}" {% if currency.id == default_currency.id %} selected {% endif %}>{{ currency.code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label class="col-form-label" style="font-weight: bold;">UI_TIMEZONE</label>
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label">{{ ui_timezone.code }}</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="timezone_id" required>
+                    {% for timezone in timezones %}
+                        <option value="{{ timezone.id }}" {% if timezone.id == ui_timezone.id %} selected {% endif %}>{{ timezone.code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <h2>Local Settings</h2>
+        <hr>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+
+{% endblock %}

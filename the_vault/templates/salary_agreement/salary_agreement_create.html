@@ -1,0 +1,89 @@
+{% set PAGE_TITLE = 'New Salary Agreement' %}
+
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="post">
+    <!-- EMPLOYER -->
+    <div class="row mb-3">
+        <label for="employer_id" class="col-sm-1 col-form-label">Employer</label>
+        <div class="col-sm-2">
+            <select class="form-select" id="employer_id" name="employer_id" required>
+                {% for employer in employers %}
+                    <option value="{{ employer.id }}">{{ employer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <!-- DESCRIPTION -->
+    <div class="row mb-3">
+        <label for="description" class="col-sm-1 col-form-label">Description</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" id="description" name="description">
+        </div>
+    </div>
+    <!-- OPENED AT -->
+    <div class="row mb-3">
+        <label for="started_at_year" class="col-sm-1 col-form-label">Opened At</label>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <span class="input-group-text">Date</span>
+                <select class="form-select" id="started_at_year" name="started_at_year" required>
+                    {% for year in range(2000, 2101) %}
+                        <option value="{{ year }}" {% if year == pendulum_now.year %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+                <span class="input-group-text">-</span>
+                <select class="form-select" id="started_at_month" name="started_at_month" required>
+                    {% for month in range(1, 13) %}
+                        <option value="{{ month }}" {% if month == pendulum_now.month %} selected {% endif %}>{{ "{:02d}".format(month) }}</option>
+                    {% endfor %}
+                </select>
+                <span class="input-group-text">-</span>
+                <select class="form-select" id="started_at_day" name="started_at_day" required>
+                    {% for day in range(1, 32) %}
+                        <option value="{{ day }}" {% if day == pendulum_now.day %} selected {% endif %}>{{ "{:02d}".format(day) }}</option>
+                    {% endfor %}
+                </select>
+                <div class="col-sm-1">
+                </div>
+                <span class="input-group-text">Time</span>
+                <select class="form-select" id="started_at_hour" name="started_at_hour" required>
+                    {% for hour in range(0, 60) %}
+                        <option value="{{ hour }}" {% if hour == pendulum_now.hour %} selected {% endif %}>{{ "{:02d}".format(hour) }}</option>
+                    {% endfor %}
+                </select>
+                <span class="input-group-text">:</span>
+                <select class="form-select" id="started_at_minute" name="started_at_minute" required>
+                    {% for minute in range(0, 60) %}
+                        <option value="{{ minute }}" {% if minute == pendulum_now.minute %} selected {% endif %}>{{ "{:02d}".format(minute) }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- CURRENCY -->
+    <div class="row mb-3">
+        <label for="currency_id" class="col-sm-1 col-form-label">Currency</label>
+        <div class="col-sm-1">
+            <select class="form-select" id="currency_id" name="currency_id" required>
+                {% for currency in currencies %}
+                    <option value="{{ currency.id }}">{{ currency.code }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <!-- MONTHLY GROSS AMOUNT -->
+    <div class="row mb-3">
+        <label for="monthly_gross_amount" class="col-sm-1 col-form-label">Monthly Gross Amount</label>
+        <div class="col-sm-1">
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control text-end" id="monthly_gross_amount" name="monthly_gross_amount" required>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
+

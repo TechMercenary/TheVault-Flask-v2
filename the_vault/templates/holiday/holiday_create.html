@@ -1,0 +1,33 @@
+{% set PAGE_TITLE = 'New Currency' %}
+
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="post">
+    <!-- COUNTRY -->
+    <div class="row mb-3">
+        <label for="country_id" class="col-sm-1 col-form-label">Country</label>
+        <div class="col-sm-2">
+            <select class="form-select" id="country_id" name="country_id" required>
+                {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="code" class="col-sm-2 col-form-label">Code</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="code" name="code" required>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="description" name="description">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

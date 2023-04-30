@@ -1,0 +1,33 @@
+{% set PAGE_TITLE = 'Currencies' %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid mb-3">
+    <a class="btn btn-success btn-sm" href="{{ url_for('currency_create') }}" role="button">New Currency</a>
+</div>
+
+<table class="table table-bordered table-striped table-hover table-sm table-light align-middle">
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        <th scope="col" class="text-center">Code</th>
+        <th scope="col" class="text-center">Description</th>
+        <th scope="col" class="text-center">Action</th> 
+    </tr>
+
+    {% for currency in currencies %}
+    <tr>
+        <th scope="row">{{ currency.id }}</td>
+        <td>{{ currency.code }}</td>
+        <td>{% if currency.description %} {{ currency.description }} {% endif %}</td>
+        <td>
+            <div class="container-fluid">
+                <a class="btn btn-primary btn-sm" href="{{ url_for('currency_edit', currency_id=currency.id) }}" role="button">&#x270E;</a>
+                <a class="btn btn-danger btn-sm" href="{{ url_for('currency_delete', currency_id=currency.id) }}" role="button" onclick="return confirm('Are you sure you want to delete this entry?')">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

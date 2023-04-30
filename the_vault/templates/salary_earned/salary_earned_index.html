@@ -1,0 +1,43 @@
+{% set PAGE_TITLE = 'Salary Earned' %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid mb-3">
+    <a class="btn btn-success btn-sm" href="{{ url_for('salary_earned_create') }}" role="button">New Salary Earned</a>
+</div>
+
+<table class="table table-bordered table-striped table-hover table-sm table-light align-middle">
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        <th scope="col" class="text-center">Earned At</th>
+        <th scope="col" class="text-center">Employer</th>
+        <th scope="col" class="text-center">Period</th>
+        <th scope="col" class="text-center">Cur</th>
+        <th scope="col" class="text-center">Amount</th>
+        <th scope="col" class="text-center">Description</th>
+        <th scope="col" class="text-center">Salary Agreement Id</th>
+        <th scope="col" class="text-center">Action</th> 
+    </tr>
+
+    {% for salary_earned in salaries_earned %}
+    <tr>
+        <th scope="row">{{ salary_earned.id }}</td>
+        <td>{{ salary_earned.earned_at }}</td>
+        <td>{{ salary_earned.salary_agreement.employer.name }}</td>
+        <td>{{ salary_earned.period_year }}-{{ "{:02d}".format(salary_earned.period_month) }}</td>
+        <td>{{ salary_earned.salary_agreement.currency.code }}</td>
+        <td class="text-end">$ {{ "{:.2f}".format(salary_earned.salary_agreement.monthly_gross_amount) }}</td>
+        <td>{% if salary_earned.description %} {{ salary_earned.description }} {% endif %}</td>
+        <td>{{ salary_earned.salary_agreement_id }}</td>
+        <td>
+            <div class="container-fluid">
+                <a class="btn btn-primary btn-sm" href="{{ url_for('salary_earned_edit', salary_earned_id=salary_earned.id) }}" role="button">&#x270E;</a>
+                <a class="btn btn-danger btn-sm" href="{{ url_for('salary_earned_delete', salary_earned_id=salary_earned.id) }}" role="button" onclick="return confirm('Are you sure you want to delete this entry?')">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

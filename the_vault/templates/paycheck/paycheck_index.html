@@ -1,0 +1,42 @@
+{% set PAGE_TITLE = 'Recibos de Sueldo' %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-md-center">
+    <div class="col-md-auto">
+        <a class="btn btn-success btn-sm mb-2" href="{{ url_for('paycheck_create') }}" role="button">Nuevo Recibo de Sueldo</a>
+        <table class="table table-bordered table-striped table-hover table-sm table-light align-middle">
+            <thead class="text-center">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Empresa</th>
+                    <th scope="col">CBU</th>
+                    <th scope="col">Periodo</th> 
+                    <th scope="col">Sueldo Bruto</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paycheck in paychecks %}
+                <tr>
+                    <th scope="row" class="text-end">{{ paycheck.id }}</td>
+                    <td><a href="{{ url_for('employer_edit', employer_id=paycheck.employer_id) }}">{{ paycheck.employer.name }}</a></td>
+                    <td>{% if paycheck.cbu %} {{ paycheck.cbu }} {% endif %}</td>
+                    <td class="text-center"> {{ paycheck.period_year }}-{{ "{:02d}".format(paycheck.period_month) }} </td>
+                    <td class="text-end">$ {{ "{:.2f}".format(paycheck.gross_amount) }}</td>
+                    <td >
+                        <div class="container-fluid">
+                            <a class="btn btn-primary btn-sm" href="{{ url_for('paycheck_edit', paycheck_id=paycheck.id) }}" role="button">&#x270E;</a>
+                            <a class="btn btn-danger btn-sm" href="{{ url_for('paycheck_delete', paycheck_id=paycheck.id) }}" role="button" onclick="return confirm('Are you sure you want to delete this entry?')">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% macro generate_index_table(fields) %}
+<table class="table table-bordered table-striped table-hover table-sm table-light align-middle">
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        {% for field in fields %}
+        <th>{{ field }}</th>
+        {% endfor %}
+        <th>Actions</th>
+    </tr>
+    {% block table_index_content %}
+    {% endblock %}
+</table>
+{% endmacro %}
